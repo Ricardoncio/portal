@@ -34,9 +34,7 @@ List<String> profesores = UserDAO.getAllNameTeachers();
 		<div class="informacion">
 			<h2>Asignatura</h2>
 			<h2>Lugar de las tutorías</h2>
-			<p>
-				<strong>Horario:</strong> de lunes a viernes de 17:00 a 20:00
-			</p>
+			<p><strong>Horario:</strong> de lunes a viernes de 17:00 a 20:00</p>
 		</div>
 
 		<div class="tablaReservas">
