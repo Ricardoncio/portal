@@ -14,6 +14,9 @@
 <meta charset="UTF-8">
 <title>Tutorías</title>
 <%
+
+User activeUser= (User) request.getSession().getAttribute("user");
+
 List<String> profesores = UserDAO.getAllNameTeachers();
 %>
 </head>
@@ -49,27 +52,27 @@ List<String> profesores = UserDAO.getAllNameTeachers();
 				</tr>
 				<tr>
 					<td>17:00 - 18:00</td>
-					<td class="ocupado"></td>
 					<td class="libre"></td>
-					<td class="ocupado"></td>
-					<td class="ocupado"></td>
+					<td class="libre"></td>
+					<td class="libre"></td>
+					<td class="libre"></td>
 					<td class="libre"></td>
 				</tr>
 				<tr>
 					<td>18:00 - 19:00</td>
 					<td class="libre"></td>
-					<td class="ocupado"></td>
 					<td class="libre"></td>
 					<td class="libre"></td>
-					<td class="ocupado"></td>
+					<td class="libre"></td>
+					<td class="libre"></td>
 				</tr>
 				<tr>
 					<td>19:00 - 20:00</td>
 					<td class="libre"></td>
 					<td class="libre"></td>
-					<td class="ocupado"></td>
 					<td class="libre"></td>
-					<td class="ocupado"></td>
+					<td class="libre"></td>
+					<td class="libre"></td>
 				</tr>
 			</table>
 
@@ -82,10 +85,11 @@ List<String> profesores = UserDAO.getAllNameTeachers();
 				</div>
 			</div>
 		</div>
-
+		<% if (activeUser.getUserType().equals("01")) { %>
 		<div class="reservar">
-			<button type="button">Reservar</button>
+			<a href="./reserva.jsp">Reservar</a>
 		</div>
+		<% } %>
 	</div>
 
 	<script src="../scripts/tutorias.js"></script>

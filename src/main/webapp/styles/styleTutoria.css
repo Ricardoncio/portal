@@ -48,12 +48,13 @@ select{
 	margin-top: 20px;
 }
 
-.reservar button{
+.reservar a{
 	background: #a100ff;
 	padding: 5px;
 	font-size: 15px;
 	color:white;
 	border-radius: 10px;
+	text-decoration: none;
 }
 
 table {
@@ -73,7 +74,7 @@ th {
 }
 
 td {
-	width: 100px;
+	width: 120px;
 	height: 30px;
 }
 
@@ -84,6 +85,7 @@ td {
 
 .libre {
 	background-color: white;
+	border:1px solid  black;
 }
 
 .legend {
