@@ -107,6 +107,7 @@ header h1 {
 	width: 15vw;
 	padding-left: 8px;
 	transition: 0.1s;
+	cursor: pointer;
 }
 
 .menuOpcion svg {

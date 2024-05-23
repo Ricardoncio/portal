@@ -34,7 +34,7 @@ public class passChangeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	    HttpSession ses = request.getSession();
-		int id = ((User) ses.getAttribute("user")).getId();
+		int id = (int) ses.getAttribute("id");
 		String oldPass = request.getParameter("user_oldPassword");
 		String newPass = request.getParameter("user_newPassword");
 

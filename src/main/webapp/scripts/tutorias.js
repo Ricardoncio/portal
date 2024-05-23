@@ -1,9 +1,26 @@
 
-let profesorSelect = document.getElementById('profesorSelect');
-let contenido = document.getElementById('contenido');
+document.addEventListener('DOMContentLoaded', function() {
+    const reservas = document.querySelectorAll('.libre'); 
+    let selectedReserva = null;
 
-// Añade un event listener para el evento 'change' del <select>
-profesorSelect.addEventListener('change', function () {
-    // Cambia el estilo display del <div> a 'block' para mostrar el contenido
-    contenido.style.display = 'block';
+    reservas.forEach(reserva => {
+        reserva.addEventListener('click', function() {
+            reservas.forEach(r => r.classList.remove('selected'));
+            
+            this.classList.add('selected');
+            selectedReserva = this.getAttribute('data-id');
+            console.log('Reserva seleccionada:', selectedReserva); // Para depuración
+        });
+    });
 });
+
+function confirmReserva() {
+    const selectedReservaInput = document.getElementById('selectedReserva');
+    
+    if (selectedReserva) {
+        selectedReservaInput.value = selectedReserva;
+        document.getElementById('confirmForm').submit();
+    } else {
+        alert('Por favor, seleccione una reserva antes de confirmar.');
+    }
+}

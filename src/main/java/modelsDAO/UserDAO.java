@@ -15,205 +15,275 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
 
-    /**
-     * Método utilizado para crear el susuario que hace login.
-     * @author Ricardo
-     * @param con
-     * @param resultSet
-     * @return Devuelve el usuario.
-     * @throws SQLException
-     */
-    public static User createUser(Connection con, ResultSet resultSet) throws SQLException {
-        User user = new User();
+	/**
+	 * Método utilizado para crear el susuario que hace login.
+	 * 
+	 * @author Ricardo
+	 * @param con
+	 * @param resultSet
+	 * @return Devuelve el usuario.
+	 * @throws SQLException
+	 */
+	public static User createUser(Connection con, ResultSet resultSet) throws SQLException {
+		User user = new User();
 
-        if (con != null) {
-            user.setId(resultSet.getInt("id"));
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user_obj WHERE id = ?");
-            preparedStatement.setInt(1, user.getId());
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                user.setUserType(resultSet.getString("user_type"));
-                user.setName(resultSet.getString("user_name"));
-                user.setId_school(resultSet.getInt("school_id"));
-                user.setId_course((Integer) resultSet.getObject("course_id"));
-            }
-        }
+		if (con != null) {
+			user.setId(resultSet.getInt("id"));
+			PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user_obj WHERE id = ?");
+			preparedStatement.setInt(1, user.getId());
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				user.setUserType(resultSet.getString("user_type"));
+				user.setName(resultSet.getString("user_name"));
+				user.setId_school(resultSet.getInt("school_id"));
+				user.setId_course((Integer) resultSet.getObject("course_id"));
+			}
+		}
 
-        return user;
-    }
+		return user;
+	}
 
-    /**
-     * Inserta un registro nuevo en la tabla de Credentials.
-     * @author Ricardo
-     * @param con
-     * @param userEmail	email que se recoge en el registro.
-     * @param userPass	contraseña que se recoge en el registro.
-     */
-    public static void insertCredentials(Connection con, String userEmail, String userPass) {
-        // No cerramos la conexión porque este metodo se utiliza dentro de otro que si la cierra
-        if (con != null) {
-            try (PreparedStatement ps = con.prepareStatement("call insertUserCredentials(?,?)")) {
-                ps.setString(1, userEmail);
-                ps.setString(2, userPass);
-                int linesModified = ps.executeUpdate();
-                if (linesModified > 0);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
+	/**
+	 * Inserta un registro nuevo en la tabla de Credentials.
+	 * 
+	 * @author Ricardo
+	 * @param con
+	 * @param userEmail email que se recoge en el registro.
+	 * @param userPass  contraseña que se recoge en el registro.
+	 */
+	public static void insertCredentials(Connection con, String userEmail, String userPass) {
+		// No cerramos la conexión porque este metodo se utiliza dentro de otro que si
+		// la cierra
+		if (con != null) {
+			try (PreparedStatement ps = con.prepareStatement("call insertUserCredentials(?,?)")) {
+				ps.setString(1, userEmail);
+				ps.setString(2, userPass);
+				int linesModified = ps.executeUpdate();
+				if (linesModified > 0)
+					;
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 
-    /**
-     * Inserta un usuario nuevo en la BD.
-     * @author Ricardo
-     * @param con
-     * @param name	nombre recogido en el registro.
-     * @param lastName	apellidos recogidos en el registro.
-     * @param birthDate	fecha de nacimiento recogida en el registro.
-     * @param dnie	DNI o NIE recogido en el registro.
-     * @param email email recogido en el registro.
-     * @param pass	contraseña recogida en el registro.
-     * @param schoolId	ID del colegio seleccionado en el registro.
-     * @param courseId	ID del módulo seleccionado en el registro.
-     */
-    public static void insertUserInDb(Connection con, String name, String lastName, String birthDate, String dnie, String email, String pass, String schoolId, String courseId) {
-        // No cerramos la conexión porque este metodo se utiliza dentro de otro que si la cierra
-        if (con != null) {
-            try {
-                PreparedStatement ps = con.prepareStatement("call insertUser(?,?,?,?,?,?,?,?,?);");
-                ps.setString(1, name);
-                ps.setString(2, lastName);
-                ps.setString(3, birthDate);
-                ps.setString(4, dnie);
-                ps.setString(5, "01");
-                ps.setString(6, email);
-                ps.setString(7, pass);
-                // Preguntarnos si los ids la mejor forma de tratarlos sería con Strings y no ints.
-                ps.setInt(8, Integer.parseInt(schoolId));
-                ps.setInt(9, Integer.parseInt(courseId));
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	/**
+	 * Inserta un usuario nuevo en la BD.
+	 * 
+	 * @author Ricardo
+	 * @param con
+	 * @param name      nombre recogido en el registro.
+	 * @param lastName  apellidos recogidos en el registro.
+	 * @param birthDate fecha de nacimiento recogida en el registro.
+	 * @param dnie      DNI o NIE recogido en el registro.
+	 * @param email     email recogido en el registro.
+	 * @param pass      contraseña recogida en el registro.
+	 * @param schoolId  ID del colegio seleccionado en el registro.
+	 * @param courseId  ID del módulo seleccionado en el registro.
+	 */
+	public static void insertUserInDb(Connection con, String name, String lastName, String birthDate, String dnie,
+			String email, String pass, String schoolId, String courseId) {
+		// No cerramos la conexión porque este metodo se utiliza dentro de otro que si
+		// la cierra
+		if (con != null) {
+			try {
+				PreparedStatement ps = con.prepareStatement("call insertUser(?,?,?,?,?,?,?,?,?);");
+				ps.setString(1, name);
+				ps.setString(2, lastName);
+				ps.setString(3, birthDate);
+				ps.setString(4, dnie);
+				ps.setString(5, "01");
+				ps.setString(6, email);
+				ps.setString(7, pass);
+				// Preguntarnos si los ids la mejor forma de tratarlos sería con Strings y no
+				// ints.
+				ps.setInt(8, Integer.parseInt(schoolId));
+				ps.setInt(9, Integer.parseInt(courseId));
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    /**
-     * Método utilizado en el datosPersonales.jsp devuelve los datos del usuario y los utiliza para imprimirlos.
-     * @author Ricardo
-     * @param id
-     * @return	List con los datos del alumno ordenados.
-     */
-    public static List<String> getUserInfo(int id) {
-        List<String> usuario = new ArrayList<>();
-        Connection con = null;
+	/**
+	 * Método utilizado en el datosPersonales.jsp devuelve los datos del usuario y
+	 * los utiliza para imprimirlos.
+	 * 
+	 * @author Ricardo
+	 * @param id
+	 * @return List con los datos del alumno ordenados.
+	 */
+	public static List<String> getUserInfo(int id) {
+		List<String> usuario = new ArrayList<>();
+		Connection con = null;
 
-        try {
-            con = new Conector().getMySqlConnection();
-            if (con != null) {
-                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user_obj WHERE id = ?");
-                preparedStatement.setInt(1, id);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    usuario.add(resultSet.getString("user_name"));
-                    usuario.add(resultSet.getString("user_surname"));
-                    usuario.add(resultSet.getString("dnie"));
-                    usuario.add(resultSet.getString("birthDate"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+		try {
+			con = new Conector().getMySqlConnection();
+			if (con != null) {
+				PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user_obj WHERE id = ?");
+				preparedStatement.setInt(1, id);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				if (resultSet.next()) {
+					usuario.add(resultSet.getString("user_name"));
+					usuario.add(resultSet.getString("user_surname"));
+					usuario.add(resultSet.getString("dnie"));
+					usuario.add(resultSet.getString("birthDate"));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
 
-        return usuario;
-    }
+		return usuario;
+	}
 
-    /*Función provisional. Falta ver cómo avanza la bbdd para poder avanzar*/
-    public static List<User> getStudentsFromTeacher (int profesorId){
-        List<User> alumnos = new ArrayList<>();
+	/* Función provisional. Falta ver cómo avanza la bbdd para poder avanzar */
+	public static List<User> getStudentsFromTeacher(int profesorId) {
+		List<User> alumnos = new ArrayList<>();
 
-        //Añadir sentencia sql para buscar los alumnos en función del id del profesor pasado como parámentro
+		// Añadir sentencia sql para buscar los alumnos en función del id del profesor
+		// pasado como parámentro
 
-        return alumnos;
-    }
-    
-    
-    /**
-     * Método que recupera todos los profesores existentes en la BBDD,
-     * es decir todos los usuarios cuyo tipo de usuario sea "02"
-     * @author Óscar
-     */
-    
-    public static List<String> getAllNameTeachers(){
-      
-      List<String> profesores = new ArrayList<>();
-      
-      try (Connection conx = new Conector().getMySqlConnection()){
-        Statement sentencia = conx.createStatement();
-         
-        //Sentencia sql para traerme todos los profesores
-        String sql = "SELECT user_name, user_surname FROM user_obj WHERE user_type = '02';";
-       
-        ResultSet rs = sentencia.executeQuery(sql);
-        
-        //Se añaden los resultados a la lista de profesores
-        while (rs.next()) {
-          profesores.add(rs.getString(1) + " " + rs.getString(2));
-        }
-        
-      } catch (ClassNotFoundException | SQLException e) {
-        e.printStackTrace();
-      }
-      
-      //Retornamos la lista con los nombres de los profesores
-      return profesores;
-    }
-    
-    
-    
+		return alumnos;
+	}
 
-    /**
-     * Método que se utiliza para cambiar la contraseña de un usuario existente
-     * @author Ricardo
-     * @param id
-     * @param newPass
-     * @return boolean que representa si se ha cambiado o no
-     */
-    public static boolean setNewPass (int id, String newPass){
-        boolean changed = false;
-    	Connection con = null;
-    	String hashedPass = BCrypt.hashpw(newPass, BCrypt.gensalt());
+	/**
+	 * Método que recupera todos los profesores existentes en la BBDD, es decir
+	 * todos los usuarios cuyo tipo de usuario sea "02"
+	 * 
+	 * @author Óscar
+	 */
 
-    	try {
-    		con = new Conector().getMySqlConnection();
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE credentials SET pass = ? WHERE id = " + id);
-            preparedStatement.setString(1, hashedPass);
-            int i = preparedStatement.executeUpdate();
-            if (i == 1)
-                changed = true;
+	public static List<String> getAllNameTeachers() {
 
-    	} catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+		List<String> profesores = new ArrayList<>();
 
-        return changed;
-    }
+		try (Connection conx = new Conector().getMySqlConnection()) {
+			Statement sentencia = conx.createStatement();
+
+			// Sentencia sql para traerme todos los profesores
+			String sql = "SELECT user_name, user_surname FROM user_obj WHERE user_type = '02';";
+
+			ResultSet rs = sentencia.executeQuery(sql);
+
+			// Se añaden los resultados a la lista de profesores
+			while (rs.next()) {
+				profesores.add(rs.getString(1) + " " + rs.getString(2));
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
+		// Retornamos la lista con los nombres de los profesores
+		return profesores;
+	}
+
+	/**
+	 * Método que se utiliza para cambiar la contraseña de un usuario existente
+	 * 
+	 * @author Ricardo
+	 * @param id
+	 * @param newPass
+	 * @return boolean que representa si se ha cambiado o no
+	 */
+	public static boolean setNewPass(int id, String newPass) {
+		boolean changed = false;
+		Connection con = null;
+		String hashedPass = BCrypt.hashpw(newPass, BCrypt.gensalt());
+
+		try {
+			con = new Conector().getMySqlConnection();
+			PreparedStatement preparedStatement = con
+					.prepareStatement("UPDATE credentials SET pass = ? WHERE id = " + id);
+			preparedStatement.setString(1, hashedPass);
+			int i = preparedStatement.executeUpdate();
+			if (i == 1)
+				changed = true;
+
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		return changed;
+	}
+
+	/**
+	 * Statement que cambia el correo en la base de datos
+	 * 
+	 * @author Joseito
+	 * @param id
+	 * @param mail
+	 * @return boolean: demuestra si el query se ha ejecutado con exito o no
+	 */
+
+	public static boolean setNewMail(int id, String mail) {
+		boolean changed = false;
+		Connection con = null;
+
+		try {
+			con = new Conector().getMySqlConnection();
+			PreparedStatement ps = con.prepareStatement("Update credentials SET email = ? WHERE id = " + id);
+			ps.setString(1, mail);
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				changed = true;
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		return changed;
+	}
+
+	public static String getMail(int id) {
+		String mail = "";
+		Connection con = null;
+
+		try {
+			con = new Conector().getMySqlConnection();
+			PreparedStatement ps = con.prepareStatement("SELECT email from credentials WHERE id=" + id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				mail = rs.getString(1);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		return mail;
+	}
 }
