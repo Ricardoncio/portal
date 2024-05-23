@@ -64,16 +64,6 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
-        <dependent-module archiveName="mysql-connector-j-8.3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/hey ok/src/main/webapp/WEB-INF/mysql-connector-j-8.3.0.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="pdfbox-3.0.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/hey ok/src/main/webapp/WEB-INF/pdfbox-3.0.2.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jBCrypt-0.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/hey ok/src/main/webapp/WEB-INF/jBCrypt-0.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
                                                                 
         
         
