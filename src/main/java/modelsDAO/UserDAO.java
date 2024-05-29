@@ -142,25 +142,27 @@ public class UserDAO {
      * @param teacher Usuario del profesor.
      * @return List<User> (Lista de los estudiantes del profesor)
      */
-    public static List<User> getStudentsFromTeacher(User teacher) {
+    public static List<User> getStudentsFromTeacherAndSubjectId(User teacher, int subject_id) {
         Connection con = null;
         List<User> students = new ArrayList<>();
 
         try {
             con = new Conector().getMySqlConnection();
             if (con != null) {
-                PreparedStatement ps = con.prepareStatement("SELECT * FROM user_obj WHERE course_id = ? and school_id = ? and user_type = '01'");
-                ps.setInt(1, teacher.getCourse_id());
-                ps.setInt(2,teacher.getSchool_id());
+                PreparedStatement ps = con.prepareStatement("SELECT distinct u.id,u.user_type,u.user_name,u.school_id,u.course_id " +
+                                                                "FROM user_obj as u INNER JOIN grades as g ON u.id = g.student " +
+                                                                "WHERE u.school_id = ? and g.subject_id = ? and u.user_type = '01'");
+                ps.setInt(1,teacher.getSchool_id());
+                ps.setInt(2,subject_id);
 
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     User user = new User();
-                    user.setId(resultSet.getInt("id"));
-                    user.setUserType(resultSet.getString("user_type"));
-                    user.setName(resultSet.getString("user_name"));
-                    user.setSchool_id(resultSet.getInt("school_id"));
-                    user.setCourse_id((Integer) resultSet.getObject("course_id"));
+                    user.setId(resultSet.getInt("u.id"));
+                    user.setUserType(resultSet.getString("u.user_type"));
+                    user.setName(resultSet.getString("u.user_name"));
+                    user.setSchool_id(resultSet.getInt("u.school_id"));
+                    user.setCourse_id((Integer) resultSet.getObject("u.course_id"));
                     students.add(user);
                 }
             }
@@ -286,40 +288,39 @@ public class UserDAO {
                 try {
                     con.close();
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }
         }
         return courseName.isEmpty() ? "" : courseName.substring(0, courseName.length() - 1); 
     }
 
-    /**
-     * Método que recupera la asignatura de un profesor desde base de datos
-     * @param id_teacher id del usuario asignado como profesor
-     * @author Óscar
-     * 
-     * @return nombre de la asignatura del profesor
-     */
-    public static String getSubjectTeacher(int id_teacher) {
-      
-        String subject = "";
+<<<<<<< HEAD
+=======
+    
+    public static List<User> getStudentsFromTeacherId(int teacherId) {
         Connection con = null;
+        String query = "SELECT * FROM user_obj WHERE id IN (SELECT student FROM grades WHERE teacher = ?)";
 
+        List<User> estudiantes = new ArrayList<>();
         try {
             con = new Conector().getMySqlConnection();
-            PreparedStatement ps = con.prepareStatement(
-                "  select su.subject_name from _subject su\r\n"
-                + "    inner join teacher_subject te on te.subject_id = su.id\r\n"
-                + "    inner join user_obj us on us.id = te.user_id\r\n"
-                + "    where te.user_id = ?; ");
-            ps.setInt(1,id_teacher);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-               subject = rs.getString(1);
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, teacherId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+       
+            while (resultSet.next()) {
+                User user = new User();
+            	user.setId(resultSet.getInt("id"));
+				user.setUserType(resultSet.getString("user_type"));
+                user.setName(resultSet.getString("user_name") + " " + resultSet.getString("user_surname"));
+                user.setSchool_id(resultSet.getInt("school_id"));
+                user.setCourse_id((Integer) resultSet.getObject("course_id"));      
+                
+                estudiantes.add(user);
             }
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (con != null) {
@@ -331,8 +332,50 @@ public class UserDAO {
             }
         }
 
-        return subject;
+		return estudiantes;
     }
+
+>>>>>>> origin/pruebas
+    /**
+     * Método que recupera la asignatura de un profesor desde base de datos
+     * @param id_teacher id del usuario asignado como profesor
+     * @author Óscar
+     * 
+     * @return nombre de la asignatura del profesor
+     */
+    public static String getSubjectsTeacher(int id_teacher) {
+      
+      String subjects = "";
+      Connection con = null;
+
+      try {
+          con = new Conector().getMySqlConnection();
+          PreparedStatement ps = con.prepareStatement(
+              "  select su.subject_name from _subject su\r\n"
+              + "    inner join teacher_subject te on te.subject_id = su.id\r\n"
+              + "    inner join user_obj us on us.id = te.user_id\r\n"
+              + "    where te.user_id = ?; ");
+          ps.setInt(1,id_teacher);
+          ResultSet rs = ps.executeQuery();
+          
+          while (rs.next()) {
+             subjects += (rs.getString(1) + ", ");
+          }
+
+      } catch (ClassNotFoundException | SQLException e) {
+          e.printStackTrace();
+      } finally {
+          if (con != null) {
+              try {
+                  con.close();
+              } catch (SQLException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+
+      return subjects.substring(0,subjects.length() - 2);
+  }
     
     
     /**
@@ -391,7 +434,7 @@ public class UserDAO {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					throw new RuntimeException(e);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -417,7 +460,7 @@ public class UserDAO {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					throw new RuntimeException(e);
+					e.printStackTrace();
 				}
 			}
 		}
