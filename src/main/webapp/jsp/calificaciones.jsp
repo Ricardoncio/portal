@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-<%@ page import="models.User" %>
-<%@ page import="java.util.List" %>
-<%@ page import="modelsDAO.UserDAO" %>
-<%@ page import="models.Subject" %>
-<%@ page import="modelsDAO.SubjectDAO" %>
-=======
 <%@ page import="models.*"%>
 <%@ page import="modelsDAO.UserDAO"%>
 <%@ page import="models.Subject"%>
 <%@ page import="modelsDAO.SubjectDAO"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map" %>
->>>>>>> origin/pruebas
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -20,8 +12,6 @@ User user = (User) request.getSession().getAttribute("user");
 	if (user.getUserType().equals("01")) {
 		response.sendRedirect("./calificacionesAlumno.jsp");
 	}
-<<<<<<< HEAD
-=======
 	String subjectSelected = (String) request.getSession().getAttribute("subjectSelected");
 	List <User> userSubject = (List<User>) session.getAttribute("subjectStudents");
 	List <Grade> gradesSubjectList = (List<Grade>) session.getAttribute("gradesList");
@@ -36,7 +26,6 @@ User user = (User) request.getSession().getAttribute("user");
 		notaMedia = notaMedia/gradesSubjectList.size();
 	}
 	String teacherGradesError = (String) session.getAttribute("teacherGradesError");
->>>>>>> origin/pruebas
 %>
 
 <!DOCTYPE html>
@@ -133,29 +122,6 @@ User user = (User) request.getSession().getAttribute("user");
 
 
 
-<<<<<<< HEAD
-		<div class="alumnoBox" id="box">
-		</div>
-		<div id="frame">
-			<div class="examen">
-				<!-- 
-					Aqui debe ir el bucle que recorra las notas que hay en ese trimestre, mediante el metodo DAO 
-					que hay que hacer que devuelva la lista de notas de ese alumno en ese trimestre
-					-->
-				<button type="submit" name="Hola" class="boton">Prueba 1 Nota 10</button>
-				<button type="submit" name="Hola" class="boton">Prueba 1 Nota 10</button>
-				<button type="submit" name="Hola" class="boton">Prueba 1 Nota 10</button>
-			</div>
-
-			<div class="anadir">
-				<label>Nombre examen</label> <input type="text"> <label>Nota
-					Examen</label> <input type="text">
-				<button type="submit" name="anadir_examen" class="anadirbtn">Añadir</button>
-			</div>
-		</div>
-	</div>
-=======
->>>>>>> origin/pruebas
 
 	<script type="text/javascript" src="../scripts/script.js"></script>
 	<!--<script type="text/javascript" src="../scripts/calificaciones.js"></script> -->

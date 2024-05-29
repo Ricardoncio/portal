@@ -230,6 +230,11 @@ public class UserDAO {
         return teachers;
     }
 
+    
+    
+    
+    
+    
     /**
      * Método que se utiliza para cambiar la contraseña de un usuario existente
      * @author Ricardo
@@ -295,8 +300,6 @@ public class UserDAO {
         return courseName.isEmpty() ? "" : courseName.substring(0, courseName.length() - 1); 
     }
 
-<<<<<<< HEAD
-=======
     
     public static List<User> getStudentsFromTeacherId(int teacherId) {
         Connection con = null;
@@ -335,7 +338,6 @@ public class UserDAO {
 		return estudiantes;
     }
 
->>>>>>> origin/pruebas
     /**
      * Método que recupera la asignatura de un profesor desde base de datos
      * @param id_teacher id del usuario asignado como profesor
@@ -466,55 +468,4 @@ public class UserDAO {
 		}
 		return changed;
 	}
-
-    /**
-     * Devuelve la ruta del jsp de calificaciones según el tipo de usuario.
-     * @author Alberto y Miguel
-     * @param u
-     * @return
-     */
-    public static String calificacionesByUserType(User u) {
-        String path = "";
-        if(u.getUserType().equals("01")) {
-            path = "./jsp/calificacionesAlumno.jsp";
-        } else if (u.getUserType().equals("02")) {
-            path = "./jsp/calificaciones.jsp";
-        } else {
-            path = "./jsp/calificacionesAcc.jsp";
-        }
-
-        return path;
-    }
-
-    public static User getUserInfoById(int id) {
-        User u = new User();
-        Connection conn = null;
-        try {
-            conn = new Conector().getMySqlConnection();
-            try (PreparedStatement ps = conn.prepareStatement("Select * from user_obj where id = ?;")) {
-                ps.setInt(1, id);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while(rs.next()) {
-                        u.setId(rs.getInt(1));
-                        u.setName(rs.getString(2));
-                        u.setUserType(rs.getString(6));
-                        u.setSchool_id(rs.getInt(7));
-                        u.setCourse_id(rs.getInt(8));
-                    }
-                }
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if(conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return u;
-    }
 }
