@@ -11,10 +11,7 @@ import models.Subject;
 import models.User;
 import modelsDAO.GradeDAO;
 import modelsDAO.SubjectDAO;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/pruebas
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +27,7 @@ public class StudentGradesServlet extends HttpServlet {
         ses.setAttribute("subjects",subjects);
         Integer subject_id = Integer.parseInt(req.getParameter("subjectSelected"));
         if (subject_id != null){
-            ses.setAttribute("nombreSelected",GradeDAO.getSubjectNameFromId(subject_id));
+            ses.setAttribute("nombreSelected", GradeDAO.getSubjectNameFromId(subject_id));
         }
         List<Grade> grades = GradeDAO.getGradesFromSubjectId(subject_id, activeUser);
 

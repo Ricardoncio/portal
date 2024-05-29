@@ -21,3 +21,8 @@ form {
     justify-content: center;
     align-items: center;
 }
+
+.main h4{
+    background-color: #A100FF;
+    color: white;
+}

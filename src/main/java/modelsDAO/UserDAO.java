@@ -295,9 +295,7 @@ public class UserDAO {
         return courseName.isEmpty() ? "" : courseName.substring(0, courseName.length() - 1); 
     }
 
-<<<<<<< HEAD
-=======
-    
+
     public static List<User> getStudentsFromTeacherId(int teacherId) {
         Connection con = null;
         String query = "SELECT * FROM user_obj WHERE id IN (SELECT student FROM grades WHERE teacher = ?)";
@@ -335,7 +333,6 @@ public class UserDAO {
 		return estudiantes;
     }
 
->>>>>>> origin/pruebas
     /**
      * Método que recupera la asignatura de un profesor desde base de datos
      * @param id_teacher id del usuario asignado como profesor

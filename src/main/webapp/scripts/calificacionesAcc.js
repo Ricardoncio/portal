@@ -1,6 +1,4 @@
-let botones = document.querySelectorAll("button");
 let originalInputValue;
-let formulario;
 
 const editGrade = (id) => {
     let input = document.getElementById(id);
@@ -8,6 +6,7 @@ const editGrade = (id) => {
     input.disabled = false;
     let editBtn = document.getElementById(`edit_${id}`);
     editBtn.disabled = true;
+
     let confirmBtn = document.getElementById(`confirm_${id}`);
     let cancelBtn = document.getElementById(`cancel_${id}`);
     confirmBtn.classList.remove("btnEnable");
@@ -29,7 +28,7 @@ const cancelEdit = (id) => {
 
 const confirmEdit = (id) => {
     let input = document.getElementById(id);
-    input.disabled = true;
+    input.disabled = false; // Habilitar el campo antes de enviar el formulario
     let editBtn = document.getElementById(`edit_${id}`);
     let confirmBtn = document.getElementById(`confirm_${id}`);
     let cancelBtn = document.getElementById(`cancel_${id}`);
