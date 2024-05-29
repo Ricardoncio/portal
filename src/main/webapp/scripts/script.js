@@ -21,6 +21,11 @@ function irLogin() {
     window.location.href = "./jsp/login.jsp";
 }
 
+function addClassToElements(elementos, color) {
+        for (var i = 0; i < elementos.length; i++) {
+            elementos[i].classList.add(color);
+        }
+    }
 
 function detColoresCentro(id){
 
@@ -59,43 +64,41 @@ function detColoresCentro(id){
 
 function detColoresNoticias(id){
 
-    var cont = document.getElementsByClassName("cont")[0];
-    var img= document.getElementsByTagName("img")[0];
-    var hr=document.getElementsByTagName("hr")[0];
+    var cont = document.getElementsByClassName("cont");
+    var img= document.getElementsByTagName("img");
+    var hr=document.getElementsByTagName("hr");
+
+    var color;
 
     switch(id){
         case 1 :
-            cont.classList.add('cesurColor');
-            img.classList.add('cesurColor');
-            hr.classList.add('cesurColor');
+            color = 'cesurColor';
             break;
 
         case 2 :
-            cont.classList.add('picassoColor');
-            img.classList.add('picassoColor');
-            hr.classList.add('picassoColor');
+            color = 'picassoColor';
             break;
 
         case 3 :
-            cont.classList.add('belenColor');
-            img.classList.add('belenColor');
-            hr.classList.add('belenColor');
+            color = 'belenColor';
             break;
 
         case 4 :
-            cont.classList.add('turingColor');
-            img.classList.add('turingColor');
-            hr.classList.add('turingColor');
+            color = 'turingColor';
             break;
 
         case 5 :
-            cont.classList.add('joseColor');
-            img.classList.add('joseColor');
-            hr.classList.add('joseColor');
+            color = 'joseColor';
             break;
 
         default : break;
     }
+
+
+    addClassToElements(cont, color);
+    addClassToElements(img, color);
+    addClassToElements(hr, color);
+
 }
  
 function determinarColores(id){
@@ -199,6 +202,87 @@ function detColorInicio(id){
     
     default : break;
 	}
-	
 }
+
+
+
+function detColoresCalificaciones(id){
+
+    var h4 = document.getElementsByTagName("h4");
+    var color;
+
+    switch(id){
+        case 1 :
+            color = 'cesurColor';
+            break;
+
+        case 2 :
+            color = 'picassoColor';
+            break;
+
+        case 3 :
+            color = 'belenColor';
+            break;
+
+        case 4 :
+            color = 'turingColor';
+            break;
+
+        case 5 :
+            color = 'joseColor';
+            break;
+
+        default : break;
+    }
+
+    addClassToElements(h4, color);
+}
+
+
+function detColoresTutorias(id){
+
+    var td = document.getElementsByTagName("td");
+	var h4 = document.getElementsByTagName("h4");
+	var boton = document.getElementsByClassName("btnComprobar");
+	var ocupado = document.getElementsByClassName("ocupado");
+	var botonReserva = document.getElementsByClassName("botonReserva");
+	var Letras = document.getElementsByClassName("Letras");
+	var buttonSubmit = document.getElementsByClassName("buttonSubmit");
+	var profesorSelect = document.getElementsByClassName("profesorSelect");
+    var color;
+
+    switch(id){
+        case 1 :
+            color = 'cesurColor';
+            break;
+
+        case 2 :
+            color = 'picassoColor';
+            break;
+
+        case 3 :
+            color = 'belenColor';
+            break;
+
+        case 4 :
+            color = 'turingColor';
+            break;
+
+        case 5 :
+            color = 'joseColor';
+            break;
+
+        default : break;
+    }
+
+	addClassToElements(h4, color);
+    addClassToElements(td, color);
+    addClassToElements(ocupado, color);
+    addClassToElements(botonReserva, color);
+    addClassToElements(boton, color);
+    addClassToElements(Letras, color);
+    addClassToElements(buttonSubmit, color);
+    addClassToElements(profesorSelect, color);
+}
+
 
