@@ -10,7 +10,7 @@ import models.Grade;
 import models.Subject;
 import models.User;
 import modelsDAO.GradeDAO;
-
+import modelsDAO.SubjectDAO;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,9 +34,5 @@ public class StudentGradesServlet extends HttpServlet {
         resp.sendRedirect("./jsp/calificacionesAlumno.jsp");
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 }
 
