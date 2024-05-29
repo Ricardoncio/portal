@@ -1,6 +1,7 @@
 package modelsDAO;
 
 import connections.Conector;
+import models.Internship;
 import models.Subject;
 import models.User;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectDAO {
-
     /**
      * Método para almacenar en una lista todas las asignaturas relacionadas con el curso en cuestión.
      * @Author Alberto G.
@@ -110,6 +110,7 @@ public class SubjectDAO {
 
         return subjects;
     }
+    /*
      * Método utilizado para rescatar las asignatura de un alumno en calificaciones.jsp.
      * Devuelve solamente los datos necesarios.
      * @author Ricardo
@@ -119,12 +120,9 @@ public class SubjectDAO {
     public static List<Subject> getAllSubjectsByUser(User user) {
         List<Subject> subjects = new ArrayList<>();
         Connection con = null;
+
         try {
             con = new Conector().getMySqlConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT su.id,su.subject_name FROM course_subject AS cs INNER JOIN _subject as su on cs.subject_id = su.id WHERE cs.course_id = ?");
-            ps.setInt(1,student.getCourse_id());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
             String query = "";
             int parameter = 0;
             if (user.getUserType().equals("01")){
@@ -143,7 +141,6 @@ public class SubjectDAO {
                 subject.setName(rs.getString(2));
                 subjects.add(subject);
             }
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -157,5 +154,31 @@ public class SubjectDAO {
         }
 
         return subjects;
+    }
+
+    public static List<Internship> getStudentsInInternshipByMentorId(int id) {
+        Connection conn = null;
+        List<Internship> studentsInternshipInfo = new ArrayList<>();
+
+        try {
+            conn = new Conector().getMySqlConnection();
+            try(PreparedStatement ps = conn.prepareStatement("Select * from internship where tutor = ?;")) {
+                ps.setInt(1, id);
+                try(ResultSet rs = ps.executeQuery()) {
+                    while(rs.next()) {
+                        int mentorId = rs.getInt(1);
+                        int studentId = rs.getInt(2);
+                        float grade = rs.getFloat(3);
+                        User mentor = UserDAO.getUserInfoById(mentorId);
+                        User student = UserDAO.getUserInfoById(studentId);
+                        studentsInternshipInfo.add(new Internship(mentor, student, grade));
+                    }
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return studentsInternshipInfo;
     }
 }

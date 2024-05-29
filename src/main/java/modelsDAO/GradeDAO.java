@@ -99,62 +99,27 @@ public class GradeDAO {
             e.printStackTrace();
         }
     }
+
+    public static void updateInternshipGrade(int studentId, float studentGrade) {
+        Connection con = null;
+
+        try {
+            con = new Conector().getMySqlConnection();
+            try (PreparedStatement ps = con.prepareStatement("UPDATE internship set grade = ? WHERE student = ?;")) {
+                ps.setFloat(1, studentGrade);
+                ps.setInt(2, studentId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if(con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
-/*
-DELIMITER //
-	CREATE TRIGGER user_subjects
-	AFTER INSERT ON user_obj
-	FOR EACH ROW
-	BEGIN
-		DECLARE teacher_id INT;
-		DECLARE subjectBuilder INT;
-		DECLARE done INT DEFAULT 0;
-		DECLARE done2 INT DEFAULT 0;
-
-		DECLARE teacher_cursor CURSOR FOR
-			SELECT id
-			FROM user_obj
-			WHERE course_id = NEW.course_id AND school_id = NEW.school_id AND user_type = "02";
-
-		DECLARE subject_cursor CURSOR FOR
-			SELECT subject_id
-			FROM course_subject
-			WHERE course_id = NEW.course_id;
-
-		DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-
-		IF NEW.user_type = '01' THEN
-			OPEN teacher_cursor;
-				teacher_loop: LOOP
-					FETCH teacher_cursor INTO teacher_id;
-					IF done THEN
-						LEAVE teacher_loop;
-					END IF;
-
-					SET done2 = 0; -- Reset the second handler flag
-
-					BEGIN
-						DECLARE CONTINUE HANDLER FOR NOT FOUND SET done2 = 1;
-
-						OPEN subject_cursor;
-
-						subject_loop: LOOP
-							FETCH subject_cursor INTO subjectBuilder;
-							IF done2 THEN
-								LEAVE subject_loop;
-							END IF;
-
-							INSERT INTO GRADES (teacher, student, subject_id, grade)
-							VALUES (teacher_id, NEW.id, subjectBuilder, NULL);
-						END LOOP subject_loop;
-
-						CLOSE subject_cursor;
-					END;
-
-				END LOOP teacher_loop;
-			CLOSE teacher_cursor;
-		END IF;
-	END;
-//
-DELIMITER ;
- */

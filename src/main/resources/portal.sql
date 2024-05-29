@@ -346,7 +346,7 @@ DELIMITER ;
 	create function getAllStudentsByTeacherId(teacherId int) returns longtext no sql
 	begin
 		declare studentId int;
-		declare studentName, studentSurname varchar(255);
+		declare student, studentSurname varchar(255);
 		declare fullname longtext default "";
 		declare namesList longtext default "";
 		declare done bool default false;
@@ -358,9 +358,9 @@ DELIMITER ;
 			if done = true then
 				leave loopingIds;
 			end if;
-			set studentName := (select user_name from user_obj where id = studentId);
+			set student := (select user_name from user_obj where id = studentId);
 			set studentSurname := (select user_surname from user_obj where id = studentId);
-			set fullname := concat(studentName, " ", studentSurname);
+			set fullname := concat(student, " ", studentSurname);
 			set namesList := concat(fullname, ";", namesList);
 		end loop;
 		return namesList;
