@@ -87,7 +87,7 @@
 		<% if (appointmentInfo == null ) {%>
 			<p>Seleccione una cita para ver la información</p>
 		<%} else {%>
-			<p>Estudiante: <%=appointmentInfo.get("studentName") + " " + appointmentInfo.get("studentSurname")%></p>
+			<p>Estudiante: <%=appointmentInfo.get("student") + " " + appointmentInfo.get("studentSurname")%></p>
 			<p>Hora: <%=appointmentInfo.get("time")%></p>
 			<p>Día: <%=appointmentInfo.get("date")%></p>
 			<p>Despacho: <%=appointmentInfo.get("room")%></p>

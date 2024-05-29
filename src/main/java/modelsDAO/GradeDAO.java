@@ -151,6 +151,9 @@ public class GradeDAO {
         }
     }
 
+<<<<<<< HEAD
+    public static void updateInternshipGrade(int studentId, float studentGrade) {
+=======
 
     public static void addGrade(HttpSession ses, int subject_id, int teacher_id, int student_id, double grade, String description){
         Connection con = null;
@@ -184,10 +187,22 @@ public class GradeDAO {
     }
     
     public static void deleteGrade(int teacher_id, int student_id, int subject_id, String description, double grade) {
+>>>>>>> origin/pruebas
         Connection con = null;
 
         try {
             con = new Conector().getMySqlConnection();
+<<<<<<< HEAD
+            try (PreparedStatement ps = con.prepareStatement("UPDATE internship set grade = ? WHERE student = ?;")) {
+                ps.setFloat(1, studentGrade);
+                ps.setInt(2, studentId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if(con != null) {
+=======
             PreparedStatement ps = con.prepareStatement("DELETE FROM grades WHERE teacher = ? and student = ? and subject_id = ? and grade_description = ? and grade = ?;");
             ps.setInt(1,teacher_id);
             ps.setInt(2,student_id);
@@ -200,6 +215,7 @@ public class GradeDAO {
             e.printStackTrace();
         } finally {
             if (con != null) {
+>>>>>>> origin/pruebas
                 try {
                     con.close();
                 } catch (SQLException e) {
@@ -208,4 +224,8 @@ public class GradeDAO {
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/pruebas

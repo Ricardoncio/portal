@@ -1,0 +1,23 @@
+#mainInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table,
+td,
+th,
+tr {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.btnEnable {
+    display: none;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
