@@ -27,8 +27,7 @@
 <% 	if (activeUser.getUserType().equals("02")) { %>
 <h3> Los profesores/as no tienen módulo asignado</h3> <% } else {%>
 <%
-	Course course = CourseDAO.createCourse(activeUser.getCourse_id());
-%>
+	Course course = CourseDAO.createCourse(activeUser.getCourse_id()); %>
 <div class="contenedorPrincipal">
 	<h2><%= course.getNameCourse() %></h2>
 	<div id="descriptionUnderline"> <h3> Descripción</h3> </div>
